@@ -22,11 +22,8 @@ const Header = () => {
   );
 };
 
-export default Header;
-
 const styles = StyleSheet.create({
   header: {
-    position: "absolute",
     height: 90,
     left: 0,
     right: 0,
@@ -52,3 +49,5 @@ const styles = StyleSheet.create({
     height: 30,
   },
 });
+
+export default Header;

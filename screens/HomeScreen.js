@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Header from "../components/Header";
+import HomeButtons from "../components/HomeButtons";
 
 const HomeScreen = () => {
   return (
-    <View>
+    <View style={{ backgroundColor: "lightgrey" }}>
       <View style={{ backgroundColor: "#E5E5E5", height: "100%" }}>
         {/* Header */}
         <Header />
-        {/* Stopwatch and Timer buttons */}
+        <HomeButtons />
       </View>
     </View>
   );
