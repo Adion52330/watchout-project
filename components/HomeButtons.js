@@ -8,7 +8,7 @@ import {
   Button,
 } from "react-native";
 
-const HomeButtons = () => {
+const HomeButtons = ({ navigation }) => {
   return (
     <View style={styles.homeButtonContainer}>
       <TouchableOpacity style={styles.buttonContainer}>
@@ -21,10 +21,13 @@ const HomeButtons = () => {
         <Text style={styles.buttonText}>Timer</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.push("StopWatchScreen")}
+        style={styles.buttonContainer}
+      >
         <Image
           source={{
-            uri: "https://img.icons8.com/material-rounded/100/000000/stopwatch.png",
+            uri: "https://img.icons8.com/material-outlined/300/000000/stopwatch.png",
           }}
           style={styles.buttonImage}
         />
@@ -47,6 +50,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
     alignItems: "center",
     padding: 18,
+    elevation: 15,
   },
   buttonImage: {
     width: 100,

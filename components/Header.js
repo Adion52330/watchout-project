@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
+// TODO: Add a Time function
 const Header = () => {
   // link: https://img.icons8.com/ios/50/000000/alarm-clock--v1.png
   return (
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "lightgray",
     paddingTop: 0,
     flexDirection: "row",
+    elevation: 20,
   },
   headerText: {
     paddingLeft: 15,
