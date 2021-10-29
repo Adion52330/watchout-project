@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import StopwatchScreen from "./screens/StopwatchScreen";
 import HomeScreen from "./screens/HomeScreen";
 import React from "react";
+import TimerScreen from "./screens/TimerScreen";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,11 @@ function Navigator() {
           options={{ headerShown: false }}
           name="StopWatchScreen"
           component={StopwatchScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TimerScreen"
+          component={TimerScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

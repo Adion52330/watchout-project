@@ -11,7 +11,10 @@ import {
 const HomeButtons = ({ navigation }) => {
   return (
     <View style={styles.homeButtonContainer}>
-      <TouchableOpacity style={styles.buttonContainer}>
+      <TouchableOpacity
+        onPress={() => navigation.push("TimerScreen")}
+        style={styles.buttonContainer}
+      >
         <Image
           source={{
             uri: "https://img.icons8.com/ios-filled/250/000000/clock--v3.png",
