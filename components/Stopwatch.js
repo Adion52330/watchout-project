@@ -9,25 +9,8 @@ const Stopwatch = () => {
   const [stopwatchStatus, setStopwatchStatus] = useState("stopped");
   const [buttonText, setButtonText] = useState("Start");
 
-  // const text = () => {
-  //   if (stopwatchStatus == "started") {
-  //     setButtonText("Stop");
-  //   } else {
-  //     setButtonText("Start");
-  //   }
-  // };
   // Function startStopwatch
   const stopwatchLogic = () => {
-    // setInterval(() => {
-    //   setSeconds((seconds) => seconds + 1);
-    // }, 1000);
-    // setInterval(() => {
-    //   setMinutes((minutes) => minutes + 1);
-    // }, 61000);
-    // setInterval(() => {
-    //   setHours((hours) => hours + 1);
-    // }, 3600000);
-    // setButtonText("Stop");
     setSeconds((seconds) => seconds + 1);
   };
   if (seconds / 60 === 1) {
@@ -60,6 +43,7 @@ const Stopwatch = () => {
     setMinutes(0);
     setHours(0);
     setStopwatchStatus("stopped");
+    stopStopwatch();
   };
 
   return (
