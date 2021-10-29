@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
+let interval = null;
 const Stopwatch = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -37,7 +38,6 @@ const Stopwatch = () => {
       setHours((hours) => hours + 1);
     }
   }
-  let interval = null;
 
   const startStop = () => {
     if (stopwatchStatus === "stopped") {
@@ -45,10 +45,14 @@ const Stopwatch = () => {
       setButtonText("Stop");
       setStopwatchStatus("started");
     } else {
-      clearInterval(interval);
-      setButtonText("Start");
-      setStopwatchStatus("stopped");
+      stopStopwatch();
     }
+  };
+  // Function to stop stopwatch
+  const stopStopwatch = () => {
+    clearInterval(interval);
+    setButtonText("Start");
+    setStopwatchStatus("stopped");
   };
   // Funtion for reset
   const reset = () => {
