@@ -59,21 +59,31 @@ const HomeTime = () => {
       }}
     >
       <View style={styles.leftContainer}>
-        <Text style={{ fontSize: 20, fontWeight: "700" }}>Your Location: </Text>
-        <Text style={{ fontSize: 20, fontWeight: "700" }}>Time: </Text>
-        <Text style={{ fontSize: 20, fontWeight: "700" }}>Day: </Text>
-        <Text style={{ fontSize: 20, fontWeight: "700" }}>Date: </Text>
+        <Text style={{ fontSize: 20, fontWeight: "700", paddingBottom: 10 }}>
+          Your Location:{" "}
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "700", paddingBottom: 10 }}>
+          Time:{" "}
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "700", paddingBottom: 10 }}>
+          Day:{" "}
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "700", paddingBottom: 10 }}>
+          Date:{" "}
+        </Text>
       </View>
       <View style={styles.rightContainer}>
-        <Text style={{ fontSize: 20, fontWeight: "400" }}>
+        <Text style={{ fontSize: 20, fontWeight: "400", paddingBottom: 10 }}>
           {Localisation.timezone}
         </Text>
-        <Text style={{ fontSize: 20, fontWeight: "400" }}>
-          {hours + ":" + minutes + ":" + seconds}
+        <Text style={{ fontSize: 20, fontWeight: "400", paddingBottom: 10 }}>
+          {hours + " : " + minutes + " : " + seconds}
         </Text>
-        <Text style={{ fontSize: 20, fontWeight: "400" }}>{dayName}</Text>
-        <Text style={{ fontSize: 20, fontWeight: "400" }}>
-          {dateNumber + monthName + ", " + year}
+        <Text style={{ fontSize: 20, fontWeight: "400", paddingBottom: 10 }}>
+          {dayName}
+        </Text>
+        <Text style={{ fontSize: 20, fontWeight: "400", paddingBottom: 10 }}>
+          {dateNumber + " " + monthName + ", " + year}
         </Text>
       </View>
     </View>
