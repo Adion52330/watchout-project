@@ -6,8 +6,8 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Alert,
 } from "react-native";
-
 const Timer = () => {
   const [seconds, setSeconds] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -28,13 +28,28 @@ const Timer = () => {
     if (seconds > 58) {
       setSeconds(0);
       setMinutes(minutes + 1);
-    } else if (minutes > 57) {
+    } else if (minutes > 58) {
       setMinutes(0);
       setHours((hours) => hours + 1);
     } else if (hours > 22) {
       setHours(0);
     }
   };
+
+  if (isRunning) {
+    if (seconds <= 0) {
+      Alert.alert("Invalid values");
+      setIsRunning(false);
+    }
+    if (!(seconds <= 0)) {
+      setInterval(() => {
+        setSeconds((seconds) => seconds - 1);
+        if (seconds === 0) {
+          setSeconds(0);
+        }
+      }, 1000);
+    }
+  }
 
   return (
     <View style={{ alignItems: "center" }}>
@@ -135,14 +150,30 @@ const Timer = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.buttonContainer}>
-          <Button
-            title="Start"
-            style={styles.startButton}
-            onPress={() => setIsRunning(!isRunning)}
-            color="#007AFF"
-          />
-        </View>
+        {isRunning ? (
+          <View
+            style={[
+              styles.buttonContainer,
+              {
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "flex-start",
+              },
+            ]}
+          >
+            <Button title="Stop" style={styles.startButton} color="#007AFF" />
+            <Button title="Reset" style={styles.startButton} color="#379FCB" />
+          </View>
+        ) : (
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Start"
+              style={styles.startButton}
+              onPress={() => setIsRunning(true)}
+              color="#007AFF"
+            />
+          </View>
+        )}
       </View>
     </View>
   );
@@ -186,10 +217,13 @@ const styles = StyleSheet.create({
     marginTop: 50,
     height: 200,
     width: 200,
+    borderRadius: 100,
+    elevation: 10,
   },
   startButton: {
     padding: 20,
-    borderRadius: 20,
+    width: "20%",
+    height: "30%",
   },
 });
 

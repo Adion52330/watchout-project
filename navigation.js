@@ -4,6 +4,7 @@ import StopwatchScreen from "./screens/StopwatchScreen";
 import HomeScreen from "./screens/HomeScreen";
 import React from "react";
 import TimerScreen from "./screens/TimerScreen";
+import TimerStatScreen from "./screens/TimerStatScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,11 @@ function Navigator() {
           options={{ headerShown: false }}
           name="TimerScreen"
           component={TimerScreen}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="TimerStatScreen"
+          component={TimerStatScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
