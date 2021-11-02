@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   StyleSheet,
@@ -6,13 +6,15 @@ import {
   View,
   Image,
   TouchableOpacity,
+  Vibration,
   Alert,
 } from "react-native";
+
 const Timer = () => {
-  const [seconds, setSeconds] = useState(0);
-  const [minutes, setMinutes] = useState(0);
   const [hours, setHours] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  const [started, setStarted] = useState(false);
 
   //   Starting from 59 when going below 0
   const decButton = () => {
@@ -36,19 +38,64 @@ const Timer = () => {
     }
   };
 
-  if (isRunning) {
-    if (seconds <= 0) {
-      Alert.alert("Invalid values");
-      setIsRunning(false);
-    }
-    if (!(seconds <= 0)) {
-      setInterval(() => {
-        setSeconds((seconds) => seconds - 1);
-        if (seconds === 0) {
-          setSeconds(0);
+  const reset = () => {
+    setHours(0);
+    setMinutes(0);
+    setSeconds(0);
+    setStarted(false);
+  };
+  let myInterval = null;
+  useEffect(() => {
+    myInterval = setInterval(() => {
+      if (started) {
+        if (seconds > 0) {
+          setSeconds(seconds - 1);
         }
-      }, 1000);
-    }
+        if (seconds === 0) {
+          if (minutes === 0) {
+            clearInterval(myInterval);
+            setStarted(false);
+          } else {
+            setMinutes(minutes - 1);
+            setSeconds(59);
+          }
+        }
+        if (minutes === 0 && seconds === 0) {
+          if (hours === 0) {
+            clearInterval(myInterval);
+            setStarted(false);
+          } else {
+            setHours(hours - 1);
+            setMinutes(59);
+          }
+        }
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  });
+
+  // Stop Timer
+  const stopTimer = () => {
+    Alert.alert(
+      "Timer Stopped",
+      `You have stopped the timer.\n\nHours: ${hours}\nMinutes: ${minutes}\nSeconds: ${seconds}`,
+      [
+        {
+          text: "OK",
+          onPress: () => {
+            reset();
+          },
+        },
+      ]
+    );
+    setStarted(false);
+    clearInterval(myInterval);
+  };
+
+  if (seconds === 0 && minutes === 0 && hours === 0) {
+    Vibration.vibrate(500);
   }
 
   return (
@@ -63,6 +110,7 @@ const Timer = () => {
                 setHours(hours + 1);
                 incButton();
               }}
+              disabled={started ? true : false}
             >
               <Image
                 source={{
@@ -78,6 +126,7 @@ const Timer = () => {
                 setHours(hours - 1);
                 decButton();
               }}
+              disabled={started ? true : false}
             >
               <Image
                 source={{
@@ -94,6 +143,7 @@ const Timer = () => {
                 setMinutes(minutes + 1);
                 incButton();
               }}
+              disabled={started ? true : false}
             >
               <Image
                 source={{
@@ -102,13 +152,16 @@ const Timer = () => {
                 style={styles.increaseImg}
               />
             </TouchableOpacity>
-            <Text style={styles.timerText}>{minutes}</Text>
+            <Text style={styles.timerText}>
+              {minutes < 10 ? `0${minutes}` : minutes}
+            </Text>
             <TouchableOpacity
               style={styles.timecontainer}
               onPress={() => {
                 setMinutes(minutes - 1);
                 decButton();
               }}
+              disabled={started ? true : false}
             >
               <Image
                 source={{
@@ -125,6 +178,7 @@ const Timer = () => {
                 setSeconds(seconds + 1);
                 incButton();
               }}
+              disabled={started ? true : false}
             >
               <Image
                 source={{
@@ -133,13 +187,16 @@ const Timer = () => {
                 style={styles.increaseImg}
               />
             </TouchableOpacity>
-            <Text style={styles.timerText}>{seconds}</Text>
+            <Text style={styles.timerText}>
+              {seconds < 10 ? `0${seconds}` : seconds}
+            </Text>
             <TouchableOpacity
               style={styles.timecontainer}
               onPress={() => {
                 setSeconds(seconds - 1);
                 decButton();
               }}
+              disabled={started ? true : false}
             >
               <Image
                 source={{
@@ -150,26 +207,38 @@ const Timer = () => {
             </TouchableOpacity>
           </View>
         </View>
-        {isRunning ? (
+        {started ? (
           <View
-            style={[
-              styles.buttonContainer,
-              {
-                flexDirection: "row",
-                justifyContent: "space-around",
-                alignItems: "flex-start",
-              },
-            ]}
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "90%",
+              marginTop: 60,
+            }}
           >
-            <Button title="Stop" style={styles.startButton} color="#007AFF" />
-            <Button title="Reset" style={styles.startButton} color="#379FCB" />
+            <View style={styles.startButton}>
+              <Button
+                title="Stop"
+                onPress={() => {
+                  stopTimer();
+                }}
+                color="#007AFF"
+              />
+            </View>
+            <View style={styles.startButton}>
+              <Button title="Reset" onPress={reset} color="#379FCB" />
+            </View>
           </View>
         ) : (
           <View style={styles.buttonContainer}>
             <Button
               title="Start"
               style={styles.startButton}
-              onPress={() => setIsRunning(true)}
+              onPress={() => {
+                setStarted(true);
+                Vibration.vibrate(1000);
+              }}
               color="#007AFF"
             />
           </View>
@@ -211,19 +280,21 @@ const styles = StyleSheet.create({
     width: "90%",
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 30,
+    marginTop: 60,
   },
   buttonContainer: {
-    marginTop: 50,
+    marginTop: 60,
+    width: "60%",
+    elevation: 20,
     height: 200,
-    width: 200,
-    borderRadius: 100,
-    elevation: 10,
+  },
+  button: {
+    height: 200,
   },
   startButton: {
-    padding: 20,
-    width: "20%",
-    height: "30%",
+    width: "40%",
+    padding: 15,
+    borderRadius: 40,
   },
 });
 
